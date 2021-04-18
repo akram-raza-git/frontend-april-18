@@ -4,6 +4,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import Navbar from "./Component/Navigation/NavigationBar";
 import Content from "./Component/Home/Content";
 import Memories from "./Component/Memories/Memories";
+import PostPage from "./Component/Memories/postpage";
 import Post from "./Component/Memories/Post";
 import Gradient from "./Component/Navigation/Gradient";
 import Home from "./Component/Home/Home";
@@ -17,7 +18,8 @@ export default class App extends Component {
         <Gradient />
         <Route exact path="/" component={Content} />
         <Route path="/Create" component={Post} />
-        <Route path="/Memories" component={Memories} />
+        <Route exact path="/Memories" component={Memories} />
+        <Route path="/Memories/:id" component={PostPage} />
         <Route path="/Features" component={Feature} />
         <Route path="/Home" component={Home} />
       </BrowserRouter>

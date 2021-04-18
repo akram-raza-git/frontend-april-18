@@ -55,11 +55,17 @@ function Memories(props) {
         {memories && memories.length > 0
           ? memories.map((memory) => (
               <div className="card" style={{ width: "18rem" }}>
-                <Card.Img
-                  variant="top"
-                  src={memory.image || logo}
-                  className="_image"
-                />
+                <div
+                  onClick={() => {
+                    props.history.push(`/Memories/${memory._id}`);
+                  }}
+                >
+                  <Card.Img
+                    variant="top"
+                    src={memory.image || logo}
+                    className="_image"
+                  />
+                </div>
                 <div className="card-body">
                   <h5 className="card-title">{memory.title}</h5>
                   <p className="card-text">{memory.post}</p>

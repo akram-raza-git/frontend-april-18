@@ -18,7 +18,6 @@ function Post(props) {
   const [updateId, setUpdate] = useState(false);
 
   useEffect(() => {
-    console.log(props);
     const { state } = props.location;
     if (state) {
       setUpdate(state._id);
