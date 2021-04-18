@@ -1,0 +1,26 @@
+.Container {
+  width: 100%;
+  display: flex;
+  .child-comp1 {
+    background-image: radial-gradient(
+      #e6e6e6,
+      #8a8a8a 20%,
+      #c9c9c9 20%,
+      #e6e6e6
+    );
+    width: 40%;
+
+    display: flex;
+    align-items: center;
+    float: left;
+    .image-style {
+      width: 100%;
+      border-radius: 50%;
+      align-self: center;
+      padding: 5px;
+    }
+  }
+  .child-comp2 {
+    width: initial;
+  }
+}

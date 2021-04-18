@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  .post-items {
+    width: 45%;
+  }
+  .card-item {
+    width: 40%;
+  }
+}
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 80%;
+  margin: 0px auto;
+  text-align: center;
+  .loader {
+    width: 3rem;
+    height: 3rem;
+  }
+  .card {
+    margin: 25px;
+    width: 23rem !important;
+    // transition: width 1.4s;
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .card-buttons {
+        display: flex;
+      }
+    }
+  }
+  ._image:hover {
+    cursor: pointer;
+    // width: 24rem !important;
+    opacity: 0.8;
+  }
+}
