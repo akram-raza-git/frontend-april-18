@@ -37,3 +37,14 @@
     opacity: 0.8;
   }
 }
+.post-page-container {
+  position: absolute;
+  z-index: 3;
+  margin: 0px auto;
+  top: 0px;
+  background: #e6e6e6;
+  .post-memory {
+    width: 60%;
+    margin: 0px auto;
+  }
+}

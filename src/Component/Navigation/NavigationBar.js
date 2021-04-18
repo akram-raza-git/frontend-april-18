@@ -7,6 +7,7 @@ import { loginUser, registerUser } from "../../action/auth";
 
 const navigationItems = ["Home", "Features", "Create", "Memories"];
 const authenticated = localStorage.getItem("token");
+
 function NavigationBar(props) {
   const [handleShow, setHandleuser] = useState({
     showLogin: false,
@@ -57,6 +58,7 @@ function NavigationBar(props) {
             localStorage.setItem("token", token);
             setError(false);
             setRegister({ ...register, message: "Login Successful" });
+            window.location.href = "/";
             setTimeout(() => handleClose(), 3000);
           }
           console.log(resp);
@@ -103,6 +105,11 @@ function NavigationBar(props) {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.clear("token");
+    window.location.href = "/login";
+  };
+
   return (
     <>
       <Navbar bg="dark" size="lg" variant="dark">
@@ -110,11 +117,16 @@ function NavigationBar(props) {
           <Navbar.Brand>Profile</Navbar.Brand>
         </Link>
         <Nav className="mr-auto">
-          {navigationItems.map((type) => (
-            <Link className="px-3" to={`/${type}`} style={{ color: "#8a8a8a" }}>
-              {type}
-            </Link>
-          ))}
+          {authenticated &&
+            navigationItems.map((type) => (
+              <Link
+                className="px-3"
+                to={`/${type}`}
+                style={{ color: "#8a8a8a" }}
+              >
+                {type}
+              </Link>
+            ))}
           {!authenticated && (
             <Form.Label
               className="px-3 register-button"
@@ -130,7 +142,7 @@ function NavigationBar(props) {
               Login
             </Button>
           ) : (
-            <Button>Logout</Button>
+            <Button onClick={handleLogout}>Logout</Button>
           )}
         </Form>
       </Navbar>
@@ -151,9 +163,6 @@ function NavigationBar(props) {
                 placeholder="Email"
                 onChange={loginInputHandler}
               />
-              <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-              </Form.Text>
             </Form.Group>
 
             <Form.Group controlId="password">
@@ -164,8 +173,11 @@ function NavigationBar(props) {
                 onChange={loginInputHandler}
               />
             </Form.Group>
+
             {hasError ? (
-              <span className="text-danger">{login.errorMessage}</span>
+              <Form.Text className="text-danger">
+                {login.errorMessage}
+              </Form.Text>
             ) : null}
             <Form.Group>
               <Form.Label className="btn text-secondary">

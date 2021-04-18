@@ -50,3 +50,15 @@ export const updateMemory = (id, data) => {
     })
     .catch((error) => error);
 };
+
+export const doGetMemoryById = (id) => {
+  return instance({ method: "get", url: `/memory/post/${id}` })
+    .then((resp) => {
+      if (resp && resp.data) {
+        return resp.data;
+      } else {
+        return resp;
+      }
+    })
+    .catch((error) => error);
+};
