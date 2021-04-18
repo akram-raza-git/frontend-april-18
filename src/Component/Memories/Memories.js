@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
-import { getMemories } from "../../action/memories";
+import { connect } from "react-redux";
+import { getMemories, deleteMemory } from "../../action/memories";
 import logo from "../../assets/3.png";
+import Loader from "../Loader/Loader";
 
 function Memories(props) {
   const [memories, setMemories] = useState([]);
@@ -9,10 +11,15 @@ function Memories(props) {
 
   useEffect(() => {
     setLoading(true);
-    getMemories()
+    getAllMemories();
+  }, []);
+
+  const getAllMemories = () => {
+    props
+      .getMemories()
       .then((resp) => {
-        if (resp && resp.data) {
-          setMemories(resp.data);
+        if (resp) {
+          setMemories(resp);
           setLoading(false);
         }
       })
@@ -20,7 +27,8 @@ function Memories(props) {
         console.log(error);
         setLoading(false);
       });
-  }, []);
+  };
+
   const editHandler = (item) => {
     const { history } = props;
     history &&
@@ -29,15 +37,20 @@ function Memories(props) {
         state: item,
       });
   };
+
+  const deleteHandler = (item) => {
+    const { _id } = item;
+    setLoading(true);
+    props.deleteMemory(_id).then((resp) => {
+      if (resp && resp._id === _id) {
+        getAllMemories();
+      }
+    });
+  };
+
   return (
     <>
-      {loading && (
-        <div style={{ textAlign: "center" }}>
-          <div class="spinner-grow loader" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-        </div>
-      )}
+      {loading && <Loader />}
       <div className="card-container">
         {memories && memories.length > 0
           ? memories.map((memory) => (
@@ -63,7 +76,11 @@ function Memories(props) {
                     >
                       Edit
                     </button>
-                    <button type="button" className="btn btn-danger mx-3">
+                    <button
+                      type="button"
+                      className="btn btn-danger mx-3"
+                      onClick={() => deleteHandler(memory)}
+                    >
                       Delete
                     </button>
                   </div>
@@ -76,4 +93,7 @@ function Memories(props) {
   );
 }
 
-export default Memories;
+const mapDispatchToProps = () => ({ getMemories, deleteMemory });
+const mapStateToProps = (state) => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Memories);

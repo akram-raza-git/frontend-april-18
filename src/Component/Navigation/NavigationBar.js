@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Navbar, Nav, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import PopupModel from "../PopupModel/PopupModel";
 import { loginUser, registerUser } from "../../action/auth";
 
@@ -48,7 +49,8 @@ function NavigationBar(props) {
   const handleUserLogin = (event) => {
     event.preventDefault();
     if (login && login.email && login.password) {
-      loginUser(login)
+      props
+        .loginUser(login)
         .then((resp) => {
           if (resp && resp.data) {
             const { token } = resp.data;
@@ -68,7 +70,8 @@ function NavigationBar(props) {
   const handleUserRegister = (event) => {
     event.preventDefault();
     if (register && register.name && register.email && register.password) {
-      registerUser(register)
+      props
+        .registerUser(register)
         .then((resp) => {
           if (resp && resp.data) {
             const { message } = resp.data || {};
@@ -239,4 +242,7 @@ function NavigationBar(props) {
   );
 }
 
-export default NavigationBar;
+const mapDispatchToProps = () => ({ loginUser, registerUser });
+const mapStateToProps = (state) => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationBar);
