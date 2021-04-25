@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PopupModel from "../PopupModel/PopupModel";
 import { loginUser, registerUser } from "../../action/auth";
+import { user_login } from "../../Redux/action/auth.action";
+import Gradient from "./Gradient";
 
 const navigationItems = ["Home", "Features", "Create", "Memories"];
 const authenticated = localStorage.getItem("token");
@@ -54,14 +56,18 @@ function NavigationBar(props) {
         .loginUser(login)
         .then((resp) => {
           if (resp && resp.data) {
-            const { token } = resp.data;
+            const { token, user } = resp.data;
+            props.user_login(user);
             localStorage.setItem("token", token);
+            props.history.push("/Memories");
+            console.log(props);
             setError(false);
             setRegister({ ...register, message: "Login Successful" });
-            window.location.href = "/";
-            setTimeout(() => handleClose(), 3000);
+            setTimeout(() => {
+              console.log(props);
+              handleClose();
+            }, 3000);
           }
-          console.log(resp);
         })
         .catch((error) => console.log(error));
     } else {
@@ -73,7 +79,11 @@ function NavigationBar(props) {
     event.preventDefault();
     if (register && register.name && register.email && register.password) {
       props
-        .registerUser(register)
+        .registerUser({
+          name: register.name,
+          email: register.email,
+          password: register.password,
+        })
         .then((resp) => {
           if (resp && resp.data) {
             const { message } = resp.data || {};
@@ -107,10 +117,10 @@ function NavigationBar(props) {
 
   const handleLogout = () => {
     localStorage.clear("token");
-    window.location.href = "/login";
+    window.location.href = "/u/login";
   };
 
-  return (
+  const navBarGradient = () => (
     <>
       <Navbar bg="dark" size="lg" variant="dark">
         <Link to="/">
@@ -142,10 +152,20 @@ function NavigationBar(props) {
               Login
             </Button>
           ) : (
-            <Button onClick={handleLogout}>Logout</Button>
+            <Button onClick={handleLogout}>
+              <i className="fa fa-sign-out" />
+              Logout
+            </Button>
           )}
         </Form>
       </Navbar>
+      <Gradient />
+    </>
+  );
+
+  return (
+    <>
+      {authenticated && navBarGradient()}
       <PopupModel
         showModal={handleShow.showLogin}
         onCloseFunc={handleClose}
@@ -254,7 +274,12 @@ function NavigationBar(props) {
   );
 }
 
-const mapDispatchToProps = () => ({ loginUser, registerUser });
-const mapStateToProps = (state) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  loginUser,
+  registerUser,
+  user_login: (data) => dispatch(user_login(data)),
+});
+
+const mapStateToProps = (state) => ({ loginReducer: state.loginReducer });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationBar);
