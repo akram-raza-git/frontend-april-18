@@ -4,19 +4,18 @@ import { Modal } from "react-bootstrap";
 
 class PopupModal extends Component {
   render() {
-    const { closeButton, isFromProductTab } = this.props;
+    const { closeButton } = this.props;
     return (
       <Modal
         dialogClassName={this.props.custClassName}
         backdropClassName={
           this.props.backdropClassName ? this.props.backdropClassName : null
         }
-        show={!!this.props.showModal}
+        show={this.props.showModal}
         onHide={this.props.onCloseFunc}
         id={this.props.id}
         backdrop={this.props.backdrop || true}
         bsSize={this.props.bsSize}
-        enforceFocus={!isFromProductTab}
       >
         <Modal.Header closeButton={closeButton}>
           <Modal.Title>{this.props.headerText}</Modal.Title>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { getMemories, deleteMemory } from "../../action/memories";
 import logo from "../../assets/3.png";
@@ -75,20 +75,22 @@ function Memories(props) {
                     </small>
                   </div>
                   <div className="card-buttons">
-                    <button
+                    <Button
                       type="button"
+                      disable={loading}
                       className="btn btn-primary"
                       onClick={() => editHandler(memory)}
                     >
                       Edit
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       type="button"
+                      disable={loading}
                       className="btn btn-danger mx-3"
                       onClick={() => deleteHandler(memory)}
                     >
                       Delete
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>

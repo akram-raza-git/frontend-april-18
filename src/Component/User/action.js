@@ -1,18 +1,17 @@
-import { instance } from "./interceptors";
+import { instance } from "../../action/interceptors";
 
-export const registerUser = (data) => {
+export const fetchUserProfile = (userId) => {
   return instance
-    .post("/user/register", data)
+    .get(`/profile/${userId}`)
     .then((resp) => {
       if (resp && resp.data) return resp.data;
       return resp;
     })
     .catch((error) => error);
 };
-
-export const loginUser = (data) => {
+export const updateUserProfile = (data) => {
   return instance
-    .post("/user/login", data)
+    .put(`/profile/`, data)
     .then((resp) => {
       if (resp && resp.data) return resp.data;
       return resp;

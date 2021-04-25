@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./_content.scss";
 import { Image } from "react-bootstrap";
 import logo from "../../assets/2.jpg";
+import { authenticated } from "../authenticated/authenticated";
 
-function ContentItem() {
+function ContentItem(props) {
+  useEffect(() => {
+    authenticated();
+  });
+
   return (
     <>
       <div className="Container">
