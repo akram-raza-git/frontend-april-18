@@ -10,11 +10,13 @@ function Memories(props) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    getAllMemories();
+    const { memoryData } = props;
+    if (memoryData && memoryData.length > 0) setMemories(memoryData);
+    else getAllMemories();
   }, []);
 
   const getAllMemories = () => {
+    setLoading(true);
     props
       .getMemories()
       .then((resp) => {
@@ -24,7 +26,6 @@ function Memories(props) {
         }
       })
       .catch((error) => {
-        console.log(error);
         setLoading(false);
       });
   };
@@ -101,7 +102,10 @@ function Memories(props) {
   );
 }
 
-const mapDispatchToProps = () => ({ getMemories, deleteMemory });
-const mapStateToProps = (state) => ({});
+const mapDispatchToProps = {
+  getMemories,
+  deleteMemory,
+};
+const mapStateToProps = (state) => ({ memoryData: state.storeMemoryInStore });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Memories);

@@ -1,40 +1,69 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { fetchUserProfile, updateUserProfile } from "./action";
+import Alert from "../PopupModel/Alert";
 import "./profile.scss";
+
+const userId = localStorage.getItem("userId");
 
 function Profile(props) {
   const [user, setUser] = useState({});
   const [address, setAddress] = useState({});
+  const [message, setMessage] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetchUserProfileData();
+    const { userProfileInfo } = props;
+    if (userProfileInfo && userProfileInfo._id) setUser(userProfileInfo);
+    else fetchUserProfileData();
   }, []);
 
   const fetchUserProfileData = () => {
-    const { id } = props.match && props.match.params;
-    props.fetchUserProfile(id).then((resp) => {
-      if (resp) {
-        setUser(resp);
-        setAddress(resp.address);
-      }
-    });
+    setLoading(true);
+    userId &&
+      props.fetchUserProfile(userId).then((resp) => {
+        if (resp && resp.email) {
+          setUser(resp);
+          setAddress(resp.address);
+        } else {
+          setMessage("Something went wrong");
+          setError(true);
+        }
+        setTimeout(() => {
+          setLoading(false);
+          setMessage("");
+          setError(false);
+        }, 1000);
+      });
   };
 
   const handleProfileUpdate = () => {
     user.address = address;
+    setLoading(true);
     props
       .updateUserProfile(user)
       .then((resp) => {
+        if (resp && resp.errorMessage) {
+          setMessage(resp.errorMessage);
+          setError(true);
+        }
         if (resp) {
+          setMessage("Profile updated successful");
           fetchUserProfileData();
         }
+        setTimeout(() => {
+          setLoading(false);
+          setMessage("");
+          setError(false);
+        }, 2500);
       })
       .catch((error) => console.log(error));
   };
 
   return (
     <div>
+      <Alert loading={loading} message={message} isError={error} />
       <div class="container">
         <div class="row gutters">
           <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
@@ -78,7 +107,7 @@ function Profile(props) {
                         onChange={(event) =>
                           setUser({ ...user, name: event.target.value })
                         }
-                        value={user.name && user.name}
+                        value={user && user.name ? user.name : ""}
                         placeholder="Enter full name"
                       />
                     </div>
@@ -93,7 +122,7 @@ function Profile(props) {
                         onChange={(event) =>
                           setUser({ ...user, email: event.target.value })
                         }
-                        value={user.email && user.email}
+                        value={user && user.email ? user.email : ""}
                         placeholder="Enter email ID"
                       />
                     </div>
@@ -102,7 +131,7 @@ function Profile(props) {
                     <div class="form-group">
                       <label for="phone">Phone</label>
                       <input
-                        value={user.mobile && user.mobile}
+                        value={user && user.mobile ? user.mobile : ""}
                         class="form-control"
                         id="phone"
                         onChange={(event) =>
@@ -118,7 +147,7 @@ function Profile(props) {
                       <input
                         class="form-control"
                         id="website"
-                        value={user.Bio && user.Bio}
+                        value={user && user.Bio ? user.Bio : ""}
                         onChange={(event) =>
                           setUser({ ...user, Bio: event.target.value })
                         }
@@ -137,7 +166,7 @@ function Profile(props) {
                       <input
                         type="name"
                         class="form-control"
-                        value={address.street && address.street}
+                        value={address && address.street ? address.street : ""}
                         id="Street"
                         onChange={(e) =>
                           setAddress({ ...address, street: e.target.value })
@@ -156,7 +185,7 @@ function Profile(props) {
                           setAddress({ ...address, city: e.target.value })
                         }
                         id="city"
-                        value={address.city && address.city}
+                        value={address && address.city ? address.city : ""}
                         placeholder="Enter City"
                       />
                     </div>
@@ -168,7 +197,7 @@ function Profile(props) {
                         type="text"
                         class="form-control"
                         id="state"
-                        value={address.state && address.state}
+                        value={address && address.state ? address.state : ""}
                         onChange={(e) =>
                           setAddress({ ...address, state: e.target.value })
                         }
@@ -182,7 +211,7 @@ function Profile(props) {
                       <input
                         type="text"
                         class="form-control"
-                        value={address.zip && address.zip}
+                        value={address && address.zip ? address.zip : ""}
                         onChange={(e) =>
                           setAddress({ ...address, zip: e.target.value })
                         }
@@ -214,10 +243,12 @@ function Profile(props) {
   );
 }
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = {
   fetchUserProfile,
   updateUserProfile,
+};
+const mapStateToProps = (state) => ({
+  userProfileInfo: state.storeUserProfileInfo,
 });
-const mapStateToProps = (state) => ({ state });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

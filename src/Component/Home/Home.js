@@ -1,14 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
-function Home(props) {
-  useEffect(() => {
-    console.log(props);
-  });
+function Home() {
   return <div>Home</div>;
 }
 
-const mapDispatchToProps = (dispatch) => {};
-const mapStateToProps = (state) => ({ loginReducer: state.loginReducer });
+const mapDispatchToProps = {};
+const mapStateToProps = () => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
