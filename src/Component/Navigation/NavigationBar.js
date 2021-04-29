@@ -60,11 +60,10 @@ function NavigationBar(props) {
             props.user_login(user);
             localStorage.setItem("token", token);
             props.history.push("/Memories");
-            console.log(props);
+
             setError(false);
             setRegister({ ...register, message: "Login Successful" });
             setTimeout(() => {
-              console.log(props);
               handleClose();
             }, 3000);
           }
@@ -123,7 +122,7 @@ function NavigationBar(props) {
   const navBarGradient = () => (
     <>
       <Navbar bg="dark" size="lg" variant="dark">
-        <Link to="/">
+        <Link to="/profile">
           <Navbar.Brand>Profile</Navbar.Brand>
         </Link>
         <Nav className="mr-auto">

@@ -12,9 +12,12 @@ import history from "./Component/history/history";
 import Login from "./Component/Home/Login";
 import Register from "./Component/Home/Register";
 import Profile from "./Component/User/Profile";
+import { authenticated } from "./Component/authenticated/authenticated";
 
 export default class App extends Component {
-  componentDidMount() {}
+  componentDidMount() {
+    authenticated();
+  }
 
   userLoginRegisterPage = () => (
     <>
@@ -23,18 +26,25 @@ export default class App extends Component {
     </>
   );
 
+  handleAllRoutes = () => (
+    <>
+      <Navbar history={history} />
+      <Route exact path="/" component={Content} />
+      <Route path="/Create" component={Post} />
+      <Route exact path="/Memories" component={Memories} />
+      <Route path="/Memories/:id" component={PostPage} />
+      <Route path="/Features" component={Feature} />
+      <Route path="/Home" component={Home} />
+    </>
+  );
+
   render() {
     return (
       <BrowserRouter>
-        <Navbar history={history} />
-        {this.userLoginRegisterPage()}
-        <Route exact path="/" component={Content} />
-        <Route path="/Create" component={Post} />
-        <Route exact path="/Memories" component={Memories} />
-        <Route path="/Memories/:id" component={PostPage} />
-        <Route path="/Features" component={Feature} />
-        <Route path="/Home" component={Home} />
-        <Route path="/profile/:id" component={Profile} />
+        {authenticated()
+          ? this.handleAllRoutes()
+          : this.userLoginRegisterPage()}
+        <Route path="/profile" component={Profile} />
       </BrowserRouter>
     );
   }

@@ -1,5 +1,11 @@
 import React from "react";
+import { connect } from "react-redux";
 
-export default function Feature() {
+const Feature = (props) => {
   return <div>Feature</div>;
-}
+};
+
+const mapStateToProps = (state) => ({
+  state,
+});
+export default connect(mapStateToProps, null)(Feature);

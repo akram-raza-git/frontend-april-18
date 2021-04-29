@@ -8,6 +8,29 @@
     width: 40%;
   }
 }
+.container-r {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: 0px auto;
+  .form-control {
+    background-color: #eee;
+    color: black;
+  }
+  .card {
+    margin: 25px;
+    width: 23rem !important;
+    // transition: width 1.4s;
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .card-buttons {
+        display: flex;
+      }
+    }
+  }
+}
 .card-container {
   display: flex;
   flex-wrap: wrap;

@@ -1,0 +1,145 @@
+$color-prime: #007bff;
+$color-white: #ccc;
+$danger: #dc3545;
+
+.alert-message {
+  position: fixed;
+  top: 100px;
+  right: 10px;
+  z-index: 100000;
+  border: 1px solid $color-prime;
+  border-radius: 4px;
+  color: $color-white;
+  background: $color-prime;
+  opacity: 0.8;
+
+  .inner-message {
+    margin: 0 auto;
+    padding: 10px;
+  }
+
+  .text-success {
+    background-color: $color-prime !important;
+    color: $color-white !important;
+  }
+}
+
+.red {
+  color: $danger;
+}
+
+.alert-success {
+  background-color: $color-prime !important;
+  color: $color-white !important;
+  max-height: 65px;
+}
+
+.alert-success-msg {
+  background-color: $color-prime !important;
+  color: $color-white !important;
+}
+
+.danger-color {
+  background-color: $danger !important;
+  color: $color-white !important;
+  max-height: 65px;
+}
+
+.alert-message-password-reset {
+  position: inherit;
+  border: none;
+}
+
+.top-right-position {
+  top: 12px;
+  right: 12px;
+  transition: transform 0.6s ease-in-out;
+  animation: toast-in-right 0.7s;
+}
+
+.confirm-notification-container {
+  font-size: 14px;
+  box-sizing: border-box;
+  position: fixed;
+  z-index: 999999;
+  .close-btn {
+    position: absolute;
+    background-color: #ffffff;
+    padding: 2px 4px 3px 4px;
+    z-index: inherit;
+    border-radius: 50%;
+  }
+  .notification {
+    background: #fff;
+    transition: 0.3s ease;
+    position: relative;
+    pointer-events: auto;
+    overflow: hidden;
+    margin: 0 0 6px;
+    padding: 30px;
+    margin-bottom: 15px;
+    width: 300px;
+    max-height: 100px;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 0 10px #999;
+    color: #000;
+    opacity: 0.9;
+    background-position: 15px;
+    background-repeat: no-repeat;
+  }
+
+  .notification:hover {
+    box-shadow: 0 0 12px #fff;
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .notification-title {
+    font-weight: 700;
+    font-size: 16px;
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 6px;
+    margin: 0px 15px 10px !important;
+    height: 18px;
+  }
+
+  .notification-image {
+    float: left;
+    margin-right: 15px;
+  }
+
+  .notification-image img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .toast {
+    height: 60px;
+    width: auto;
+    color: #fff;
+    padding: 15px 15px 10px 10px;
+  }
+}
+
+@keyframes toast-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes toast-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.opacity-0 {
+  opacity: 0;
+}

@@ -22,7 +22,6 @@ const user_data = (state = initialState, action) => {
         ...state,
         ...payload,
       };
-      console.log(user);
       return user;
     case USER_REGISTRATION_CREATED:
       break;

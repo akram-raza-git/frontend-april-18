@@ -37,10 +37,9 @@ function Post(props) {
   };
 
   const submitHandler = (event) => {
-    setLoading(true);
     event.preventDefault();
     if (updateId) {
-      console.log(post);
+      setLoading(true);
       props.updateMemory(updateId, post).then((resp) => {
         if (resp._id === updateId) {
           const { history } = props;
@@ -51,26 +50,27 @@ function Post(props) {
           setLoading(false);
         }
       });
-      return;
+    } else {
+      props
+        .createMemory(post)
+        .then((resp) => {
+          setLoading(false);
+          if (resp && resp.message === "memory saved") {
+            const { history } = props;
+            history &&
+              history.push({
+                pathname: "/Memories",
+              });
+          }
+        })
+        .catch((error) => console.log(error));
     }
-    props
-      .createMemory(post)
-      .then((resp) => {
-        setLoading(false);
-        if (resp && resp.message === "memory saved") {
-          const { history } = props;
-          history &&
-            history.push({
-              pathname: "/Memories",
-            });
-        }
-      })
-      .catch((error) => console.log(error));
   };
+
   return (
     <>
       {loading && <Loader />}
-      <div className="container">
+      <div className="container-r">
         <div className="post-items">
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="title">
@@ -139,10 +139,10 @@ function Post(props) {
   );
 }
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = {
   createMemory,
   updateMemory,
-});
+};
 
 const mapStateToProps = (state) => ({});
 

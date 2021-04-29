@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Form, Button, Spinner } from "react-bootstrap";
 import { loginUser } from "../../action/auth";
 import PopupModal from "../PopupModel/PopupModel";
-import { user_login } from "../../Redux/action/auth.action";
 import "./_content.scss";
 
 class Login extends Component {
@@ -23,7 +22,6 @@ class Login extends Component {
   handleUserLogin = (event) => {
     event.preventDefault();
     const { email, password } = this.state;
-    console.log(email, password);
     if (email && password) {
       this.setState({ loading: true });
       this.props
@@ -34,7 +32,6 @@ class Login extends Component {
             const userId = user._id;
             localStorage.setItem("token", resp.token);
             localStorage.setItem("userId", userId);
-            if (user) this.props.user_login(user);
             this.setState(
               {
                 successMessage: "Login Successful",
@@ -45,7 +42,7 @@ class Login extends Component {
               () => {
                 setTimeout(() => {
                   this.setState({ successMessage: null, showPopup: false });
-                  window.location.href = `/profile/${userId}`;
+                  window.location.href = `/profile`;
                 }, 3000);
               }
             );
@@ -144,7 +141,6 @@ class Login extends Component {
 }
 const mapDispatchToProps = (dispatch) => ({
   loginUser,
-  user_login: (data) => dispatch(user_login(data)),
 });
 const mapStateToProps = (state) => ({});
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -44,7 +44,6 @@ class SignUp extends Component {
               }
             );
           }
-          console.log(resp);
           this.setState({ loading: false });
         }
       });
