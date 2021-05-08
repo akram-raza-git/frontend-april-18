@@ -6,6 +6,7 @@ import PopupModel from "../PopupModel/PopupModel";
 import { loginUser, registerUser } from "../../action/auth";
 import { user_login } from "../../Redux/action/auth.action";
 import Gradient from "./Gradient";
+import Sidebar from "./sidebar";
 
 const navigationItems = ["Home", "Features", "Create", "Memories"];
 const authenticated = localStorage.getItem("token");
@@ -15,6 +16,7 @@ function NavigationBar(props) {
     showLogin: false,
     showRegister: false,
   });
+  const [sidebar, setSidebar] = useState(false);
   const [login, setLogin] = useState({
     email: "",
     password: "",
@@ -119,8 +121,34 @@ function NavigationBar(props) {
     window.location.href = "/u/login";
   };
 
+  const handleSidebarCallback = (item) => {
+    switch (item) {
+      case "hideSidebar":
+        setSidebar(false);
+        break;
+      case "logout":
+        handleLogout();
+        setSidebar(false);
+        break;
+      case "login":
+        handleShowLogin(true, false, false);
+        setSidebar(false);
+        break;
+      case "profile":
+        props.history.push("/profile");
+        setSidebar(false);
+        break;
+      default:
+        break;
+    }
+    console.log(item);
+  };
+
   const navBarGradient = () => (
     <>
+      {sidebar && (
+        <Sidebar sidebar={sidebar} callback={handleSidebarCallback} />
+      )}
       <Navbar bg="dark" size="lg" variant="dark">
         <Link to="/profile">
           <Navbar.Brand>Profile</Navbar.Brand>
@@ -146,16 +174,10 @@ function NavigationBar(props) {
           )}
         </Nav>
         <Form inline>
-          {!authenticated ? (
-            <Button onClick={() => handleShowLogin(true, false, false)}>
-              Login
-            </Button>
-          ) : (
-            <Button onClick={handleLogout}>
-              <i className="fa fa-sign-out" />
-              Logout
-            </Button>
-          )}
+          <i
+            className="fa fa-bars sidebar-icon"
+            onClick={() => setSidebar(true)}
+          />
         </Form>
       </Navbar>
       <Gradient />

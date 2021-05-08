@@ -29,7 +29,7 @@ class Login extends Component {
         .then((resp) => {
           if (resp && resp.token) {
             const { user } = resp;
-            const userId = user._id;
+            const userId = user.id;
             localStorage.setItem("token", resp.token);
             localStorage.setItem("userId", userId);
             this.setState(
