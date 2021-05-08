@@ -1,3 +1,19 @@
 body {
   background: #e6e6e6;
 }
+
+.justify-content-center {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.justify-content-between {
+  display: flex !important;
+  justify-content: space-between !important;
+}
+.f-direction-column {
+  flex-direction: column !important;
+}
+.f-direction-row {
+  flex-direction: row !important;
+}

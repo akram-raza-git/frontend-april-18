@@ -15,27 +15,36 @@ function Profile(props) {
 
   useEffect(() => {
     const { userProfileInfo } = props;
-    if (userProfileInfo && userProfileInfo._id) setUser(userProfileInfo);
-    else fetchUserProfileData();
+    if (userProfileInfo && userProfileInfo._id) {
+      setUser(userProfileInfo);
+      setAddress(userProfileInfo.address);
+    } else fetchUserProfileData();
   }, []);
 
   const fetchUserProfileData = () => {
     setLoading(true);
     userId &&
-      props.fetchUserProfile(userId).then((resp) => {
-        if (resp && resp.email) {
-          setUser(resp);
-          setAddress(resp.address);
-        } else {
-          setMessage("Something went wrong");
-          setError(true);
-        }
-        setTimeout(() => {
+      props
+        .fetchUserProfile(userId)
+        .then((resp) => {
+          if (resp && resp.email) {
+            setUser(resp);
+            setAddress(resp.address);
+          } else {
+            setMessage("Something went wrong");
+            setError(true);
+          }
           setLoading(false);
-          setMessage("");
-          setError(false);
-        }, 1000);
-      });
+          clearMessage(2000);
+        })
+        .catch((error) => console.log(error));
+  };
+
+  const clearMessage = (timeOut) => {
+    setTimeout(() => {
+      setError(false);
+      setMessage(false);
+    }, timeOut);
   };
 
   const handleProfileUpdate = () => {
@@ -47,16 +56,14 @@ function Profile(props) {
         if (resp && resp.errorMessage) {
           setMessage(resp.errorMessage);
           setError(true);
+          loading(false);
+          clearMessage(3000);
         }
         if (resp) {
           setMessage("Profile updated successful");
+          clearMessage(2000);
           fetchUserProfileData();
         }
-        setTimeout(() => {
-          setLoading(false);
-          setMessage("");
-          setError(false);
-        }, 2500);
       })
       .catch((error) => console.log(error));
   };
@@ -78,6 +85,7 @@ function Profile(props) {
                       />
                     </div>
                     <h5 class="user-name">{user.name}</h5>
+                    <h6 class="user-email mb-2">{user.mobile}</h6>
                     <h6 class="user-email">{user.email}</h6>
                   </div>
                   {user.Bio && (

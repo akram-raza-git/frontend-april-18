@@ -9,12 +9,12 @@ const PostPage = (props) => {
   useEffect(() => {
     const { id } = (props.match && props.match.params) || {};
     if (id) {
-      doGetMemoryById(id).then((resp) => setMemory(resp));
+      props.doGetMemoryById(id).then((resp) => setMemory(resp));
     }
   }, [props]);
 
   return (
-    <div className="post-page-container">
+    <div className="">
       <Button
         className="btn btn-prime position-absolute"
         onClick={() => props.history.goBack()}
@@ -28,4 +28,7 @@ const PostPage = (props) => {
   );
 };
 
-export default connect()(PostPage);
+const mapDispatchToProps = {
+  doGetMemoryById,
+};
+export default connect(null, mapDispatchToProps)(PostPage);

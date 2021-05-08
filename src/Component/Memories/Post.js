@@ -13,6 +13,7 @@ function Post(props) {
     title: "",
     author: "",
     image: "",
+    userId: localStorage.getItem("userId"),
   });
   const [loading, setLoading] = useState(false);
   const [updateId, setUpdate] = useState(false);

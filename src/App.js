@@ -35,6 +35,7 @@ export default class App extends Component {
       <Route path="/Memories/:id" component={PostPage} />
       <Route path="/Features" component={Feature} />
       <Route path="/Home" component={Home} />
+      <Route path="/profile" component={Profile} />
     </>
   );
 
